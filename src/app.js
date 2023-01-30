@@ -60,14 +60,19 @@ country = geocoderRes.address.country_code;
          if(parseData.thumbnail != undefined){
           let image = parseData.thumbnail.source;
            imgURL = image;
-           await res.send(JSON.stringify({imageURL:imgURL, locationName:cityName, condition:condition, temperature:`${temperature}°C`, forecast:`Min ${min}°C - Max ${max}°C`}));  
-          }else{
+           sendHeader()
+           }else{
           if(retried == false){
             imgcity = `${imgcity} (${region})`;
           searchImage();
           retried = true;
+          }else{
+          sendHeader(); 
           }
          }
+       async function sendHeader(){
+          await res.send(JSON.stringify({imageURL:imgURL, locationName:cityName, condition:condition, temperature:`${temperature}°C`, forecast:`Min ${min}°C - Max ${max}°C`}));  
+        }
  })
 }  
 })
