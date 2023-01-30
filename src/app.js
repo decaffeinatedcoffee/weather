@@ -40,18 +40,28 @@ country = geocoderRes.address.country_code;
     var min = Math.round(weather.list[0].main.temp_min);
     var cityName = (weather.city.name);
     var lang = clm.getLocaleByAlpha2(weather.city.country).slice(0,2);
+    if(lang.toLocaleLowerCase() != "pt"){
+      lang = "en";
+    }
     retried = false;
     
     let imgcity = cityName;
+    
     var imgURL;  
     
     openGeocoder()
     .reverse(parseFloat(weather.city.coord.lon), parseFloat(weather.city.coord.lat))
           .end(async(err, geocoderRes) => {
       let region = geocoderRes.address.state;
+      let imgcityState;
+      if(lang.toLowerCase() == "pt"){
+      imgcityState = `${imgcity} (${region})`;
+      }else{
+      imgcityState = `${imgcity}, ${region}`;
+      }
     searchImage();
     function searchImage(){
-      fetch(`https://${lang}.wikipedia.org/w/api.php?action=query&prop=pageimages&titles=${imgcity}&pithumbsize=3000&format=json&origin=*`)
+      fetch(`https://${lang}.wikipedia.org/w/api.php?action=query&prop=pageimages&titles=${imgcityState}&pithumbsize=3000&format=json&origin=*`)
        .then(function(data){
           return data.json()
       })
@@ -63,7 +73,7 @@ country = geocoderRes.address.country_code;
            sendHeader()
            }else{
           if(retried == false){
-            imgcity = `${imgcity} (${region})`;
+            imgcityState = imgcity; 
           searchImage();
           retried = true;
           }else{
