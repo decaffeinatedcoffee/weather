@@ -7,6 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
+    <meta property="og:url"                content="https://decaffweather.onrender.com/" />
+    <meta property="og:title"              content="Weather" />
+    <meta property="og:description"        content="Weather information" />
+    <meta property="og:image"              content="https://github.com/decaffeinatedcoffee/decaffeinatedcoffee.github.io/blob/main/assets/sun.png?raw=true" />
+    <link rel="shortcut icon" href="https://github.com/decaffeinatedcoffee/decaffeinatedcoffee.github.io/blob/main/assets/sun.png?raw=true" type="image/x-icon">
     <title>Weather</title>
 </head>
 <style>
@@ -93,6 +98,9 @@ height: 10px;
 font-size: 1.6em;
 }
 @media only screen and (hover: none) and (pointer: coarse){
+    body{
+        overflow-y: hidden;
+    }
     .info{
         width: 300px;
     }
@@ -396,11 +404,13 @@ function position(pos){
 
 
     function sendSearch(json){
-        if(json){
-
-        }else{
+    if(!json){
         json = {latitude:null, longitude:null, name:document.getElementById("searchInfo").value, country:document.getElementById("searchCountry").value}
     }
+    document.getElementById("locationName").innerText = "Loading...";
+    document.getElementById("temperature").innerText = "";
+   document.getElementById("conditions").innerText = "";
+   document.getElementById("forecast").innerText = "";
     const xhttp = new XMLHttpRequest();
    xhttp.open("POST", "/search", true);
    xhttp.setRequestHeader("Content-Type", "application/json");
