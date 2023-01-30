@@ -422,7 +422,12 @@ function position(pos){
    document.getElementById("temperature").innerText = data.temperature;
    document.getElementById("conditions").innerText = data.condition;
    document.getElementById("forecast").innerText = data.forecast;
+    if(data.imageURL != undefined){
    document.getElementById("bkg").src = data.imageURL;
+   document.getElementById("bkg").style.display = "block"
+   }else{
+    document.getElementById("bkg").style.display = "none";
+   }
    }else{
     document.getElementById("locationName").innerText = "Error Searching";
     document.getElementById("temperature").innerText = "";
